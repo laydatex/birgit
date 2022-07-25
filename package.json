@@ -1,0 +1,25 @@
+{
+	"name": "birgit",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "svelte-kit dev",
+		"build": "svelte-kit build",
+		"package": "svelte-kit package",
+		"preview": "svelte-kit preview",
+		"prepare": "svelte-kit sync",
+		"lint": "eslint ."
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "next",
+		"@sveltejs/kit": "next",
+		"eslint": "^8.16.0",
+		"eslint-plugin-svelte3": "^4.0.0",
+		"svelte-preprocess": "^4.10.7",
+		"stylus": "^0.55.0",
+		"svelte": "^3.46.0"
+	},
+	"type": "module",
+	"dependencies": {
+		"cookie": "^0.4.1"
+	}
+}

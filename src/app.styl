@@ -1,0 +1,189 @@
+:root
+
+	--color-bg #eee
+	--color-text #444
+
+	--color-accent #ff4c22
+	--color-accent-text #fff
+	--color-accent-1 #fd623e
+	--color-accent-2 #da3109
+
+	--color-button #989
+	--color-button-text #fff
+	--color-button-1 #009
+	--color-button-2 #888
+
+	--font-size 1.6rem
+	--font-size-small 1.2rem
+	--font-size-large 2rem
+
+	--radius .4rem
+
+	font-family 'Helvetica Neue', sans-serif
+	font-size 10px
+
+*
+	box-sizing border-box
+
+body
+	margin 0
+	font-size var(--font-size)
+	background var(--color-bg)
+	color var(--color-text)
+
+h1
+	font-size var(--font-size-large)
+	text-align center
+	font-family 'Bungee', sans-serif
+
+h2
+	font-size var(--font-size)
+	font-family 'Bungee', sans-serif
+
+
+.a
+	color var(--color-accent)
+	text-decoration underline
+	font-size inherit
+	border 0
+	padding 0
+	background none
+	cursor pointer
+
+	&.-secondary
+		color var(--color-text)
+		text-decoration underline
+
+	&:hover
+		text-decoration none
+
+.button
+	background-color var(--color-button)
+	color var(--color-button-text)
+	text-transform uppercase
+	font-weight bold
+	font-size var(--font-size)
+	padding .5rem 1rem
+	min-width 2.6rem
+	height 2.6rem
+	border 0
+	border-radius var(--radius)
+	cursor pointer
+	transition background-color .3s
+	user-select none
+
+	&.-left
+		border-radius var(--radius) 0 0 var(--radius)
+
+	&.-right
+		border-radius 0 var(--radius) var(--radius) 0
+
+	&:hover
+		background-color var(--color-accent-1)
+
+	&:active
+		background-color var(--color-accent-2)
+
+	&:disabled
+		opacity .5
+		pointer-events none
+
+	&.-submit
+		background-color var(--color-accent)
+		color var(--color-accent-text)
+		padding 1.5rem 2.5rem
+		font-size var(--font-size-large)
+		height auto
+		box-shadow 0 .4rem 0 var(--color-accent-2), 0 .5rem 1rem -.1rem rgba(#000, .4)
+		transition box-shadow .3s, background-color .3s
+
+		&:hover
+			background-color var(--color-accent-1)
+
+		&:active
+			background-color var(--color-accent-2)
+
+
+.input
+	font inherit
+	font-size var(--font-size)
+	height 2.6rem
+	border-radius 0
+	border 0
+	padding .5rem
+	text-align center
+
+	&:focus
+		outline 0
+
+	&[type="number"]
+		-webkit-appearance textfield
+		-moz-appearance textfield
+		appearance textfield
+
+	&::-webkit-inner-spin-button
+	&::-webkit-outer-spin-button
+		-webkit-appearance none
+
+.table
+	border-collapse collapse
+	margin 5rem auto
+
+	tr
+		border-bottom solid 1px rgba(#000, .1)
+
+	td
+	th
+		padding .5rem
+		height 4rem
+
+	th
+		font-size var(--font-size-small)
+		text-transform uppercase
+
+
+.overlay
+	background-color rgba(#fff, .5)
+	position fixed
+	top 0
+	right 0
+	bottom 0
+	left 0
+	display flex
+	justify-content center
+	align-items center
+
+	&__close
+		position absolute
+		top 0
+		right 0
+		bottom 0
+		left 0
+
+.modal
+	position relative
+	background #fff
+	padding 5rem
+	width 80%
+	max-width 64rem
+	border-radius 1rem
+	box-shadow 0 .5rem 1.5rem 0 rgba(#000, .2)
+	text-align center
+	z-index 2
+
+	&__close
+		position absolute
+		top -1.5rem
+		right -1.5rem
+		width 3rem
+		height 3rem
+		background-color var(--color-button)
+		color var(--color-button-text)
+		box-shadow 0 .5rem 1.5rem 0 rgba(#000, .2)
+		border-radius 5rem
+		border 0
+		cursor pointer
+		transition background-color .3s
+
+		&:hover
+			background-color var(--color-accent)
