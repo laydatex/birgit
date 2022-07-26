@@ -1,4 +1,6 @@
 <script>
+export const prerender = true;
+
 import WINE_LIST from '../data/wines.json';
 
 let wines = WINE_LIST;
@@ -22,17 +24,17 @@ $: shipping = shippingPerBottle * bottles;
 $: total = shipping + netto;
 
 
-// function onSubmit(e) {
-// 	const formData = new FormData(e.target);
-// 	const data = {wines, total};
-//
-// 	for (let field of formData) {
-// 		const [key, value] = field;
-// 		data[key] = value;
-// 	}
-//
-// 	console.log(data);
-// }
+function onSubmit(e) {
+	const formData = new FormData(e.target);
+	const data = {wines, total};
+
+	for (let field of formData) {
+		const [key, value] = field;
+		data[key] = value;
+	}
+
+	console.log(data);
+}
 
 function back() {
 	step = 'order';
@@ -49,7 +51,9 @@ function confirm() {
 	<meta name="description" content="Cenik vin" />
 </svelte:head>
 
-<form name="order" method="POST" data-netlify="true">
+<form name="order" data-netlify="true" method="post">
+
+	<input type="hidden" name="form-name" value="order" />
 
 	{#if step === 'order'}
 		<table class="table">
@@ -81,7 +85,7 @@ function confirm() {
 								maxlength="2"
 								bind:value={boxes}
 								class="input"
-								name="{name}-count"
+								name="{name}"
 								readonly />
 							<button class="button -small -right" type="button" disabled={bottles / bottlesPerBox >= maxBoxes} on:click={() => boxes += 1}>+</button>
 						</div>
