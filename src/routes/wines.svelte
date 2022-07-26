@@ -21,17 +21,18 @@ $: bottles = wines.reduce((sum, current) => {
 $: shipping = shippingPerBottle * bottles;
 $: total = shipping + netto;
 
-function onSubmit(e) {
-	const formData = new FormData(e.target);
-	const data = {wines, total};
 
-	for (let field of formData) {
-		const [key, value] = field;
-		data[key] = value;
-	}
-
-	console.log(data);
-}
+// function onSubmit(e) {
+// 	const formData = new FormData(e.target);
+// 	const data = {wines, total};
+//
+// 	for (let field of formData) {
+// 		const [key, value] = field;
+// 		data[key] = value;
+// 	}
+//
+// 	console.log(data);
+// }
 
 function back() {
 	summary = false;
@@ -48,7 +49,7 @@ function confirm() {
 	<meta name="description" content="Cenik vin" />
 </svelte:head>
 
-<form on:submit|preventDefault={onSubmit} name="order" action="POST" data-netlify="true">
+<form name="order" action="POST" data-netlify="true">
 
 	<input type="hidden" name="order" value="order" />
 
@@ -81,6 +82,7 @@ function confirm() {
 							maxlength="2"
 							bind:value={boxes}
 							class="input"
+							name="{name}-count"
 							readonly />
 						<button class="button -small -right" type="button" disabled={bottles / bottlesPerBox >= maxBoxes} on:click={() => boxes += 1}>+</button>
 					</div>
@@ -143,6 +145,8 @@ function confirm() {
 				</table>
 
 				<div data-netlify-recaptcha="true" />
+
+				<input type="hidden" name="order" value="order" />
 
 				<button type="submit" class="button -submit sum_submit">Ano</button>
 				<button type="button" class="a -secondary" on:click={back}>Ne, posral sem to</button>
