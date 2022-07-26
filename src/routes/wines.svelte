@@ -51,8 +51,6 @@ function confirm() {
 
 <form name="order" action="POST" data-netlify="true">
 
-	<input type="hidden" name="order" value="order" />
-
 	<table class="table">
 		<tr>
 			<th class="win_name">Víno</th>
