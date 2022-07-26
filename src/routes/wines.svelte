@@ -49,7 +49,7 @@ function confirm() {
 	<meta name="description" content="Cenik vin" />
 </svelte:head>
 
-<form name="order" action="POST" data-netlify="true">
+<form name="order" method="POST" data-netlify="true">
 
 	<table class="table">
 		<tr>
