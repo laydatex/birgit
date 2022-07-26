@@ -58,7 +58,8 @@ function confirm() {
 
 	<input type="hidden" name="form-name" value="order" />
 
-	{#if step === 'order'}
+	<div class="win_step" class:-visible={step === 'order'}>
+
 		<table class="table">
 			<tr>
 				<th class="win_name">Víno</th>
@@ -121,7 +122,9 @@ function confirm() {
 
 		<button type="button" disabled={bottles < 1} class="button -submit win_submit" on:click={confirm}>Objednat</button>
 
-	{:else if step === 'summary'}
+	</div>
+
+	<div class="win_step" class:-visible={step === 'summary'}>
 
 		<p>
 			Chystas se objednat <strong>{bottles / bottlesPerBox}</strong> krabic (tj. {bottles} lahvi)<br/>
@@ -152,7 +155,7 @@ function confirm() {
 		<button type="submit" class="button -submit sum_submit">Ano</button>
 		<button type="button" class="a -secondary" on:click={back}>Ne, posral sem to</button>
 
-	{/if}
+	</div>
 
 </form>
 
@@ -191,6 +194,18 @@ function confirm() {
 .win_submit
 	margin 2rem auto
 	display block
+
+.win_step
+	width 100%
+	position absolute
+	left 100%
+	opacity 0
+	transition opacity .05s, left .3s
+
+	&.-visible
+		opacity 1
+		left 0
+		transition opacity .5s, left .3s
 
 .sum_submit
 	margin 2rem auto
