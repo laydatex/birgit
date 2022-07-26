@@ -1,5 +1,8 @@
+<script context="module">
+	export const prerender = true;
+</script>
+
 <script>
-export const prerender = true;
 
 import WINE_LIST from '../data/wines.json';
 
