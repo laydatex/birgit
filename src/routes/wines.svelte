@@ -144,7 +144,7 @@ function confirm() {
 
 				<div data-netlify-recaptcha="true" />
 
-				<input type="hidden" name="order" value="order" />
+				<input type="hidden" name="form-name" value="order" />
 
 				<button type="submit" class="button -submit sum_submit">Ano</button>
 				<button type="button" class="a -secondary" on:click={back}>Ne, posral sem to</button>
