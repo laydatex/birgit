@@ -74,7 +74,7 @@ function validateEmail() {
 
 	<input type="hidden" name="form-name" value="order" />
 
-	<input type="hidden" name="total" value={total} />
+	<input type="hidden" name="total" bind:value={total} />
 
 	<div class="pge_cart">
 		<table class="table">
