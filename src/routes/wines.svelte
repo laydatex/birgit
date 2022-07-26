@@ -48,7 +48,7 @@ function confirm() {
 	<meta name="description" content="Cenik vin" />
 </svelte:head>
 
-<form on:submit|preventDefault={onSubmit}>
+<form on:submit|preventDefault={onSubmit} netlify>
 
 	<table class="table">
 		<tr>
@@ -65,21 +65,23 @@ function confirm() {
 				<td class="win_prize -bottle">
 					{bottle}
 				</td>
-				<td class="win_boxes">
-					<button
-						class="button -small -left"
-						type="button"
-						disabled={boxes < 1}
-						on:click={() => boxes -= 1}>-</button>
-					<input
-						type="number"
-						min="0"
-						max="10"
-						maxlength="2"
-						bind:value={boxes}
-						class="input"
-						readonly />
-					<button class="button -small -right" type="button" disabled={bottles / bottlesPerBox >= maxBoxes} on:click={() => boxes += 1}>+</button>
+				<td>
+					<div class="win_boxes">
+						<button
+							class="button -small -left"
+							type="button"
+							disabled={boxes < 1}
+							on:click={() => boxes -= 1}>-</button>
+						<input
+							type="number"
+							min="0"
+							max="10"
+							maxlength="2"
+							bind:value={boxes}
+							class="input"
+							readonly />
+						<button class="button -small -right" type="button" disabled={bottles / bottlesPerBox >= maxBoxes} on:click={() => boxes += 1}>+</button>
+					</div>
 				</td>
 				<td class="win_prize">
 					{prize ? prize.toFixed(2) : 0}
@@ -171,6 +173,8 @@ function confirm() {
 
 .win_boxes
 	display flex
+	align-items center
+	justify-content center
 
 .win_submit
 	margin 2rem auto
