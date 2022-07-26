@@ -13,6 +13,8 @@
 	--color-button-1 #009
 	--color-button-2 #888
 
+	--color-border rgba(#000, .2)
+
 	--font-size 1.6rem
 	--font-size-small 1.2rem
 	--font-size-large 2rem
@@ -107,16 +109,24 @@ h2
 .input
 	font inherit
 	font-size var(--font-size)
-	height 2.6rem
-	border-radius 0
-	border 0
-	padding .5rem
-	text-align center
+	text-align start
+	border solid 1px var(--color-border)
+	border-radius var(--radius)
+	text-align start
+	display block
+	height 4rem
+	padding .5rem 1rem
+	margin 1rem auto
 
 	&:focus
 		outline 0
 
 	&[type="number"]
+		border-radius 0
+		border 0
+		height 2.6rem
+		padding .2rem
+		text-align center
 		-webkit-appearance textfield
 		-moz-appearance textfield
 		appearance textfield
@@ -130,7 +140,7 @@ h2
 	margin 5rem auto
 
 	tr
-		border-bottom solid 1px rgba(#000, .1)
+		border-bottom solid 1px var(--color-border)
 
 	td
 	th

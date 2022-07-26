@@ -50,6 +50,8 @@ function confirm() {
 
 <form on:submit|preventDefault={onSubmit} name="wines" netlify>
 
+<input type="hidden" name="wines" value="wines" />
+
 	<table class="table">
 		<tr>
 			<th class="win_name">Víno</th>
@@ -120,6 +122,10 @@ function confirm() {
 					Chystas se objednat <strong>{bottles / bottlesPerBox}</strong> krabic (tj. {bottles} lahvi)<br/>
 					za <strong>{total.toFixed(2)}€</strong>. Souhlas?
 				</p>
+
+				<input name="name" class="input" required placeholder="Jmeno" />
+
+				<input name="email" type="email" class="input" required placeholder="E-mail" />
 
 				<table class="table">
 					<tr>
