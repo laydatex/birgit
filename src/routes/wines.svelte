@@ -48,7 +48,7 @@ function confirm() {
 	<meta name="description" content="Cenik vin" />
 </svelte:head>
 
-<form on:submit|preventDefault={onSubmit} netlify>
+<form on:submit|preventDefault={onSubmit} name="wines" netlify>
 
 	<table class="table">
 		<tr>
