@@ -3,17 +3,22 @@
 	--color-bg #eee
 	--color-text #444
 
-	--color-accent #ff4c22
+	--color-accent #0fb6ac
 	--color-accent-text #fff
-	--color-accent-1 #fd623e
-	--color-accent-2 #da3109
+	--color-accent-1 #08958c
+	--color-accent-2 #0b827b
+
+	--color-critical #ff4c22
+	--color-critical-text #fff
+	--color-critical-1 #fd623e
+	--color-critical-2 #da3109
 
 	--color-button #989
 	--color-button-text #fff
 	--color-button-1 #009
 	--color-button-2 #888
 
-	--color-border rgba(#000, .2)
+	--color-border rgba(#000, .1)
 
 	--font-size 1.6rem
 	--font-size-small 1.2rem
@@ -108,24 +113,30 @@ h2
 
 .input
 	font inherit
-	font-size var(--font-size)
+	font-size 2rem
 	text-align start
-	border solid 1px var(--color-border)
+	border solid 1px rgba(#000, .2)
 	border-radius var(--radius)
 	text-align start
 	display block
-	height 4rem
+	height 5rem
 	padding .5rem 1rem
-	margin 1rem auto
+	margin 2rem auto
+	background-color #fff
+	transition border-color .2s
+	width 35rem
 
+	&:hover
 	&:focus
 		outline 0
+		border-color var(--color-accent)
 
 	&[type="number"]
 		border-radius 0
 		border 0
 		height 2.6rem
 		padding .2rem
+		font-size var(--font-size)
 		text-align center
 		-webkit-appearance textfield
 		-moz-appearance textfield
@@ -135,9 +146,14 @@ h2
 	&::-webkit-outer-spin-button
 		-webkit-appearance none
 
+	&.-error
+		border-color var(--color-critical)
+
 .table
 	border-collapse collapse
-	margin 5rem auto
+	margin 0 auto
+	width -webkit-fill-available
+	max-width 70rem
 
 	tr
 		border-bottom solid 1px var(--color-border)
@@ -197,3 +213,7 @@ h2
 
 		&:hover
 			background-color var(--color-accent)
+
+.page
+	margin 0 auto
+	text-align center

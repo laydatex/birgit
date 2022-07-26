@@ -4,11 +4,16 @@
 
 <script>
 
-import WINE_LIST from '../data/wines.json';
+import WINE_LIST from '../_data/wines.json';
 
 let wines = WINE_LIST;
-
 let step = 'order';
+let name;
+let email;
+let emailValid;
+let nameValid;
+
+export let total;
 
 const shippingPerBottle = .5;
 const bottlesPerBox = 6;
@@ -26,25 +31,36 @@ $: bottles = wines.reduce((sum, current) => {
 $: shipping = shippingPerBottle * bottles;
 $: total = shipping + netto;
 
-
-function onSubmit(e) {
-	const formData = new FormData(e.target);
-	const data = {wines, total};
-
-	for (let field of formData) {
-		const [key, value] = field;
-		data[key] = value;
-	}
-
-	console.log(data);
+function confirmBottles() {
+	step = 'name';
 }
 
-function back() {
+function confirmName() {
+	step = 'summary';
+}
+
+function backToBottles() {
 	step = 'order';
 }
 
-function confirm() {
-	step = 'summary';
+function backToName() {
+	step = 'name';
+}
+
+function validateName() {
+	if ( name !== '' ) {
+		nameValid = true;
+	} else {
+		nameValid = false;
+	}
+}
+
+function validateEmail() {
+	if ( email.match( /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ ) ) {
+		emailValid = true;
+	} else {
+		emailValid = false;
+	}
 }
 
 </script>
@@ -54,51 +70,12 @@ function confirm() {
 	<meta name="description" content="Cenik vin" />
 </svelte:head>
 
-<form name="order" data-netlify="true" method="post">
+<form name="order" method="post" data-netlify="true" data-netlify-recaptcha="true" class="frm">
 
 	<input type="hidden" name="form-name" value="order" />
 
-	<div class="win_step" class:-visible={step === 'order'}>
-
+	<div class="pge_cart">
 		<table class="table">
-			<tr>
-				<th class="win_name">Víno</th>
-				<th class="win_prize -bottle">Lahev</th>
-				<th>Krabic (x6)</th>
-				<th class="win_prize">€</th>
-			</tr>
-			{#each wines as {name, bottle, boxes, prize}}
-				<tr>
-					<td class="win_name">
-						{name}
-					</td>
-					<td class="win_prize -bottle">
-						{bottle}
-					</td>
-					<td>
-						<div class="win_boxes">
-							<button
-								class="button -small -left"
-								type="button"
-								disabled={boxes < 1}
-								on:click={() => boxes -= 1}>-</button>
-							<input
-								type="number"
-								min="0"
-								max="10"
-								maxlength="2"
-								bind:value={boxes}
-								class="input"
-								name="{name}"
-								readonly />
-							<button class="button -small -right" type="button" disabled={bottles / bottlesPerBox >= maxBoxes} on:click={() => boxes += 1}>+</button>
-						</div>
-					</td>
-					<td class="win_prize">
-						{prize ? prize.toFixed(2) : 0}
-					</td>
-				</tr>
-			{/each}
 			<tr>
 				<td class="win_name">Netto</td>
 				<td colspan="3" class="win_prize">
@@ -119,42 +96,102 @@ function confirm() {
 				</td>
 			</tr>
 		</table>
-
-		<button type="button" disabled={bottles < 1} class="button -submit win_submit" on:click={confirm}>Objednat</button>
-
 	</div>
 
-	<div class="win_step" class:-visible={step === 'summary'}>
+	<div class="frm_step" class:-visible={step === 'order'}>
+		<div class="page pge_order">
 
-		<p>
-			Chystas se objednat <strong>{bottles / bottlesPerBox}</strong> krabic (tj. {bottles} lahvi)<br/>
-			za <strong>{total.toFixed(2)}€</strong>. Souhlas?
-		</p>
-
-		<input name="name" class="input" required placeholder="Jmeno" />
-
-		<input name="email" type="email" class="input" required placeholder="E-mail" />
-
-		<table class="table">
-			<tr>
-				<th class="win_name">Víno</th>
-				<th class="win_prize">Krabic</th>
-			</tr>
-			{#each wines as {name, bottle, boxes, prize}}
-				{#if boxes > 0}
+			<div>
+				<table class="table">
 					<tr>
-						<td class="win_name">{name}</td>
-						<td class="win_prize">{boxes}</td>
+						<th class="win_name">Víno</th>
+						<th class="win_prize -bottle">Lahev</th>
+						<th>Krabic (x6)</th>
+						<th class="win_prize">€</th>
 					</tr>
-				{/if}
-			{/each}
-		</table>
+					{#each wines as {name, bottle, boxes, prize}}
+						<tr>
+							<td class="win_name">
+								{name}
+							</td>
+							<td class="win_prize -bottle">
+								{bottle}
+							</td>
+							<td>
+								<div class="win_boxes">
+									<button
+										class="button -small -left"
+										type="button"
+										disabled={boxes < 1}
+										on:click={() => boxes -= 1}>-</button>
+									<input
+										type="number"
+										min="0"
+										max="10"
+										maxlength="2"
+										bind:value={boxes}
+										class="input"
+										name="{name}"
+										readonly />
+									<button class="button -small -right" type="button" disabled={bottles / bottlesPerBox >= maxBoxes} on:click={() => boxes += 1}>+</button>
+								</div>
+							</td>
+							<td class="win_prize">
+								{prize ? prize.toFixed(2) : 0}
+							</td>
+						</tr>
+					{/each}
+				</table>
 
-		<div data-netlify-recaptcha="true" />
+				<button type="button" disabled={bottles < 1} class="button -submit frm_submit" on:click={confirmBottles}>Dalsi</button>
 
-		<button type="submit" class="button -submit sum_submit">Ano</button>
-		<button type="button" class="a -secondary" on:click={back}>Ne, posral sem to</button>
+			</div>
 
+		</div>
+	</div>
+
+	<div class="frm_step" class:-visible={step === 'name'}>
+		<div class="page pge_name">
+
+			<input name="name" class="input" class:-error={nameValid === false} placeholder="Jmeno" bind:value={name} on:input={validateName}/>
+
+			<input name="email" type="email" class="input" class:-error={emailValid === false} placeholder="E-mail" bind:value={email} on:input={validateEmail} />
+
+			<button type="button" disabled={!nameValid || !emailValid} class="button -submit frm_submit" on:click={confirmName}>Dalsi</button>
+			<button type="button" class="a -secondary frm_back" on:click={backToBottles}>Ne, posral sem to</button>
+
+		</div>
+	</div>
+
+	<div class="frm_step" class:-visible={step === 'summary'}>
+		<div class="page">
+
+			<p>
+				Chystas se objednat <strong>{bottles / bottlesPerBox}</strong> krabic (tj. {bottles} lahvi)<br/>
+				za <strong>{total.toFixed(2)}€</strong>. Souhlas?
+			</p>
+
+			<table class="table">
+				<tr>
+					<th class="win_name">Víno</th>
+					<th class="win_prize">Krabic</th>
+				</tr>
+				{#each wines as {name, bottle, boxes, prize}}
+					{#if boxes > 0}
+						<tr>
+							<td class="win_name">{name}</td>
+							<td class="win_prize">{boxes}</td>
+						</tr>
+					{/if}
+				{/each}
+			</table>
+
+			<div data-netlify-recaptcha="true" />
+
+			<button type="submit" disabled={bottles < 1 || !nameValid || !emailValid} class="button -submit frm_submit">Objednat</button>
+			<button type="button" class="a -secondary frm_back" on:click={backToName}>Ne, posral sem to</button>
+
+		</div>
 	</div>
 
 </form>
@@ -191,24 +228,43 @@ function confirm() {
 	align-items center
 	justify-content center
 
-.win_submit
-	margin 2rem auto
+	input
+		width 3rem
+		margin 0
+
+.frm_submit
+	margin 4rem auto 0
 	display block
 
-.win_step
-	width 100%
+.frm_step
+	width calc( 100% - 34rem )
 	position absolute
 	left 100%
 	opacity 0
 	transition opacity .05s, left .3s
+	padding 4rem
 
 	&.-visible
 		opacity 1
 		left 0
 		transition opacity .5s, left .3s
 
-.sum_submit
-	margin 2rem auto
-	display block
+.frm_back
+	margin-top 2rem
+
+.pge_name
+	margin 0 auto
+	text-align center
+
+.pge_cart
+	position fixed
+	top 0
+	right 0
+	padding 4rem
+	margin 4rem
+	background-color #fff
+	border-radius 1rem
+	width 30rem
+	z-index 9
 
 </style>
