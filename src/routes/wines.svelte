@@ -48,9 +48,9 @@ function confirm() {
 	<meta name="description" content="Cenik vin" />
 </svelte:head>
 
-<form on:submit|preventDefault={onSubmit} name="wines" netlify>
+<form on:submit|preventDefault={onSubmit} name="order" action="POST" data-netlify="true">
 
-<input type="hidden" name="wines" value="wines" />
+	<input type="hidden" name="order" value="order" />
 
 	<table class="table">
 		<tr>
@@ -141,6 +141,8 @@ function confirm() {
 						{/if}
 					{/each}
 				</table>
+
+				<div data-netlify-recaptcha="true" />
 
 				<button type="submit" class="button -submit sum_submit">Ano</button>
 				<button type="button" class="a -secondary" on:click={back}>Ne, posral sem to</button>
