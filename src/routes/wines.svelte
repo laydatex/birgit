@@ -3,7 +3,7 @@ import WINE_LIST from '../data/wines.json';
 
 let wines = WINE_LIST;
 
-let summary;
+let step = 'order';
 
 const shippingPerBottle = .5;
 const bottlesPerBox = 6;
@@ -35,11 +35,11 @@ $: total = shipping + netto;
 // }
 
 function back() {
-	summary = false;
+	step = 'order';
 }
 
 function confirm() {
-	summary = true;
+	step = 'summary';
 }
 
 </script>
@@ -51,105 +51,100 @@ function confirm() {
 
 <form name="order" method="POST" data-netlify="true">
 
-	<table class="table">
-		<tr>
-			<th class="win_name">Víno</th>
-			<th class="win_prize -bottle">Lahev</th>
-			<th>Krabic (x6)</th>
-			<th class="win_prize">€</th>
-		</tr>
-		{#each wines as {name, bottle, boxes, prize}}
+	{#if step === 'order'}
+		<table class="table">
 			<tr>
-				<td class="win_name">
-					{name}
-				</td>
-				<td class="win_prize -bottle">
-					{bottle}
-				</td>
-				<td>
-					<div class="win_boxes">
-						<button
-							class="button -small -left"
-							type="button"
-							disabled={boxes < 1}
-							on:click={() => boxes -= 1}>-</button>
-						<input
-							type="number"
-							min="0"
-							max="10"
-							maxlength="2"
-							bind:value={boxes}
-							class="input"
-							name="{name}-count"
-							readonly />
-						<button class="button -small -right" type="button" disabled={bottles / bottlesPerBox >= maxBoxes} on:click={() => boxes += 1}>+</button>
-					</div>
-				</td>
-				<td class="win_prize">
-					{prize ? prize.toFixed(2) : 0}
+				<th class="win_name">Víno</th>
+				<th class="win_prize -bottle">Lahev</th>
+				<th>Krabic (x6)</th>
+				<th class="win_prize">€</th>
+			</tr>
+			{#each wines as {name, bottle, boxes, prize}}
+				<tr>
+					<td class="win_name">
+						{name}
+					</td>
+					<td class="win_prize -bottle">
+						{bottle}
+					</td>
+					<td>
+						<div class="win_boxes">
+							<button
+								class="button -small -left"
+								type="button"
+								disabled={boxes < 1}
+								on:click={() => boxes -= 1}>-</button>
+							<input
+								type="number"
+								min="0"
+								max="10"
+								maxlength="2"
+								bind:value={boxes}
+								class="input"
+								name="{name}-count"
+								readonly />
+							<button class="button -small -right" type="button" disabled={bottles / bottlesPerBox >= maxBoxes} on:click={() => boxes += 1}>+</button>
+						</div>
+					</td>
+					<td class="win_prize">
+						{prize ? prize.toFixed(2) : 0}
+					</td>
+				</tr>
+			{/each}
+			<tr>
+				<td class="win_name">Netto</td>
+				<td colspan="3" class="win_prize">
+					{netto ? (Math.round((netto + Number.EPSILON) * 100) / 100).toFixed(2) : 0}
 				</td>
 			</tr>
-		{/each}
-		<tr>
-			<td class="win_name">Netto</td>
-			<td colspan="3" class="win_prize">
-				{netto ? (Math.round((netto + Number.EPSILON) * 100) / 100).toFixed(2) : 0}
-			</td>
-		</tr>
-		<tr>
-			<td class="win_name">Doprava</td>
-			<td colspan="3" class="win_prize">
-				{shipping ? shipping.toFixed(2) : 0}
-			</td>
-		</tr>
-		<tr>
-			<td class="win_name">Total</td>
-			<td colspan="3" class="win_prize win_total">
-				{total ? total.toFixed(2) : 0}
-				<span>€</span>
-			</td>
-		</tr>
-	</table>
+			<tr>
+				<td class="win_name">Doprava</td>
+				<td colspan="3" class="win_prize">
+					{shipping ? shipping.toFixed(2) : 0}
+				</td>
+			</tr>
+			<tr>
+				<td class="win_name">Total</td>
+				<td colspan="3" class="win_prize win_total">
+					{total ? total.toFixed(2) : 0}
+					<span>€</span>
+				</td>
+			</tr>
+		</table>
 
-	<button type="button" disabled={bottles < 1} class="button -submit win_submit" on:click={confirm}>Objednat</button>
+		<button type="button" disabled={bottles < 1} class="button -submit win_submit" on:click={confirm}>Objednat</button>
 
-	{#if summary}
-		<div class="overlay">
-			<div class="overlay__close" on:click={back} />
-			<div class="modal">
-				<button class="modal__close" aria-label="Zavrit" on:click={back}>x</button>
-				<p>
-					Chystas se objednat <strong>{bottles / bottlesPerBox}</strong> krabic (tj. {bottles} lahvi)<br/>
-					za <strong>{total.toFixed(2)}€</strong>. Souhlas?
-				</p>
+	{:else if step === 'summary'}
 
-				<input name="name" class="input" required placeholder="Jmeno" />
+		<p>
+			Chystas se objednat <strong>{bottles / bottlesPerBox}</strong> krabic (tj. {bottles} lahvi)<br/>
+			za <strong>{total.toFixed(2)}€</strong>. Souhlas?
+		</p>
 
-				<input name="email" type="email" class="input" required placeholder="E-mail" />
+		<input name="name" class="input" required placeholder="Jmeno" />
 
-				<table class="table">
+		<input name="email" type="email" class="input" required placeholder="E-mail" />
+
+		<table class="table">
+			<tr>
+				<th class="win_name">Víno</th>
+				<th class="win_prize">Krabic</th>
+			</tr>
+			{#each wines as {name, bottle, boxes, prize}}
+				{#if boxes > 0}
 					<tr>
-						<th class="win_name">Víno</th>
-						<th class="win_prize">Krabic</th>
+						<td class="win_name">{name}</td>
+						<td class="win_prize">{boxes}</td>
 					</tr>
-					{#each wines as {name, bottle, boxes, prize}}
-						{#if boxes > 0}
-							<tr>
-								<td class="win_name">{name}</td>
-								<td class="win_prize">{boxes}</td>
-							</tr>
-						{/if}
-					{/each}
-				</table>
+				{/if}
+			{/each}
+		</table>
 
-				<div data-netlify-recaptcha="true" />
+		<div data-netlify-recaptcha="true" />
 
-				<input type="hidden" name="form-name" value="order" />
+		<button type="submit" class="button -submit sum_submit">Ano</button>
+		<button type="button" class="a -secondary" on:click={back}>Ne, posral sem to</button>
 
-				<button type="submit" class="button -submit sum_submit">Ano</button>
-				<button type="button" class="a -secondary" on:click={back}>Ne, posral sem to</button>
-			</div>
-		</div>
 	{/if}
 
 </form>
