@@ -1,0 +1,67 @@
+{
+  ".svelte-kit/build/index.js": {
+    "file": "index.js",
+    "src": ".svelte-kit/build/index.js",
+    "isEntry": true,
+    "imports": [
+      "_index-511472e1.js"
+    ],
+    "dynamicImports": [
+      "src/hooks.js"
+    ]
+  },
+  "src/routes/__layout.svelte": {
+    "file": "entries/pages/__layout.svelte.js",
+    "src": "src/routes/__layout.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index-511472e1.js"
+    ],
+    "css": [
+      "_app/immutable/assets/__layout-0d7374d2.css"
+    ]
+  },
+  ".svelte-kit/runtime/components/error.svelte": {
+    "file": "entries/fallbacks/error.svelte.js",
+    "src": ".svelte-kit/runtime/components/error.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index-511472e1.js"
+    ]
+  },
+  "src/routes/index.svelte": {
+    "file": "entries/pages/index.svelte.js",
+    "src": "src/routes/index.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index-511472e1.js"
+    ]
+  },
+  "src/routes/summary.svelte": {
+    "file": "entries/pages/summary.svelte.js",
+    "src": "src/routes/summary.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index-511472e1.js"
+    ]
+  },
+  "src/routes/wines.svelte": {
+    "file": "entries/pages/wines.svelte.js",
+    "src": "src/routes/wines.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index-511472e1.js"
+    ],
+    "css": [
+      "_app/immutable/assets/wines-be367ad3.css"
+    ]
+  },
+  "_index-511472e1.js": {
+    "file": "_app/immutable/chunks/index-511472e1.js"
+  },
+  "src/hooks.js": {
+    "file": "_app/immutable/chunks/hooks-1c986cc1.js",
+    "src": "src/hooks.js",
+    "isDynamicEntry": true
+  }
+}
