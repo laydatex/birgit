@@ -73,7 +73,7 @@ function validateUserEmail() {
 
 	<input type="hidden" name="form-name" value="order" />
 
-	<div class="pge_cart">
+	<div class="pge_cart tile">
 		<table class="table">
 			<tr>
 				<td class="win_name">Netto</td>
@@ -262,10 +262,7 @@ function validateUserEmail() {
 	position fixed
 	top 0
 	right 0
-	padding 4rem
 	margin 4rem
-	background-color #fff
-	border-radius 1rem
 	width 30rem
 	z-index 9
 
