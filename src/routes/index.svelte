@@ -8,10 +8,10 @@ import WINE_LIST from '../_data/wines.json';
 
 let wines = WINE_LIST;
 let step = 'wines';
-// let name;
-// let email;
-// let emailValid;
-// let nameValid;
+let userName;
+let userEmail;
+let userEmailValid;
+let userNameValid;
 
 export let total;
 
@@ -47,19 +47,19 @@ function backToName() {
 	step = 'name';
 }
 
-function validateName() {
-	if ( name !== '' ) {
-		nameValid = true;
+function validateUserName() {
+	if ( userName !== '' ) {
+		userNameValid = true;
 	} else {
-		nameValid = false;
+		userNameValid = false;
 	}
 }
 
-function validateEmail() {
-	if ( email.match( /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ ) ) {
-		emailValid = true;
+function validateUserEmail() {
+	if ( userEmail.match( /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ ) ) {
+		userEmailValid = true;
 	} else {
-		emailValid = false;
+		userEmailValid = false;
 	}
 }
 
@@ -144,20 +144,20 @@ function validateEmail() {
 				</table>
 
 				<button type="button" disabled={bottles < 1} class="button -submit frm_submit" on:click={confirmBottles}>Dalsi</button>
-<button type="submit" disabled={bottles < 1} class="button -submit frm_submit">Objednat</button>
+
 			</div>
 
 		</div>
 	</div>
 
-	<!-- <div class="frm_step" class:-visible={step === 'name'}>
+	<div class="frm_step" class:-visible={step === 'name'}>
 		<div class="page pge_name">
 
-			<input name="name" class="input" class:-error={nameValid === false} placeholder="Jmeno" bind:value={name} on:input={validateName}/>
+			<input name="userName" class="input" class:-error={userNameValid === false} placeholder="Jmeno" bind:value={userName} on:input={validateUserName}/>
 
-			<input name="email" type="email" class="input" class:-error={emailValid === false} placeholder="E-mail" bind:value={email} on:input={validateEmail} />
+			<input name="userEmail" type="email" class="input" class:-error={userEmailValid === false} placeholder="E-mail" bind:value={userEmail} on:input={validateUserEmail} />
 
-			<button type="button" disabled={!nameValid || !emailValid} class="button -submit frm_submit" on:click={confirmName}>Dalsi</button>
+			<button type="button" disabled={!userNameValid || !userEmailValid} class="button -submit frm_submit" on:click={confirmName}>Dalsi</button>
 			<button type="button" class="a -secondary frm_back" on:click={backToBottles}>Ne, posral sem to</button>
 
 		</div>
@@ -166,10 +166,7 @@ function validateEmail() {
 	<div class="frm_step" class:-visible={step === 'summary'}>
 		<div class="page">
 
-			<p>
-				Chystas se objednat <strong>{bottles / bottlesPerBox}</strong> krabic (tj. {bottles} lahvi)<br/>
-				za <strong>{total.toFixed(2)}€</strong>. Souhlas?
-			</p>
+			<h1>Souhlasi?</h1>
 
 			<table class="table">
 				<tr>
@@ -184,17 +181,21 @@ function validateEmail() {
 						</tr>
 					{/if}
 				{/each}
+				<tr>
+					<td class="win_name">Celkem</td>
+					<td class="win_prize">
+						<strong>{bottles / bottlesPerBox}</strong>
+					</td>
+				</tr>
 			</table>
 
 			<input type="hidden" name="total" bind:value={total} />
 
-			<button type="submit" disabled={bottles < 1 || !nameValid || !emailValid} class="button -submit frm_submit">Objednat</button>
+			<button type="submit" disabled={bottles < 1 || !userName || !userEmail} class="button -submit frm_submit">Objednat</button>
 			<button type="button" class="a -secondary frm_back" on:click={backToName}>Ne, posral sem to</button>
 
 		</div>
-	</div> -->
-
-
+	</div>
 
 </form>
 
