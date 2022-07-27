@@ -2,11 +2,11 @@
 	"name": "birgit",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "svelte-kit dev",
-		"build": "svelte-kit build",
-		"package": "svelte-kit package",
-		"preview": "svelte-kit preview",
-		"prepare": "svelte-kit sync",
+		"dev": "vite dev",
+		"build": "vite build",
+		"package": "vite package",
+		"preview": "vite preview",
+		"prepare": "vite sync",
 		"lint": "eslint ."
 	},
 	"devDependencies": {
@@ -17,7 +17,8 @@
 		"eslint-plugin-svelte3": "^4.0.0",
 		"stylus": "^0.55.0",
 		"svelte": "^3.46.0",
-		"svelte-preprocess": "^4.10.7"
+		"svelte-preprocess": "^4.10.7",
+		"vite": "^3.0.3"
 	},
 	"type": "module",
 	"dependencies": {
