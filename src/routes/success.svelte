@@ -12,7 +12,6 @@
 		<h1>Bravo!</h1>
 		<p>
 			Mas objednano. Posli prachy, sedni si a cekej na telefon.<br/>
-			<!-- -{$store}- -->
 		</p>
 		<img src="staring.jpg" alt="cekej" />
 	</div>
