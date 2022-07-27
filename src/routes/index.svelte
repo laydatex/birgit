@@ -8,12 +8,11 @@ import WINE_LIST from '../_data/wines.json';
 
 let wines = WINE_LIST;
 let step = 'wines';
-let userName;
-let userEmail;
 let userEmailValid;
 let userNameValid;
-
-export let total;
+let userName;
+let userEmail;
+let total;
 
 const shippingPerBottle = .5;
 const bottlesPerBox = 6;
@@ -70,7 +69,7 @@ function validateUserEmail() {
 	<meta name="description" content="Cenik vin" />
 </svelte:head>
 
-<form name="order" method="post" data-netlify="true" class="frm">
+<form name="order" method="post" action="/success/" data-netlify="true" class="frm">
 
 	<input type="hidden" name="form-name" value="order" />
 

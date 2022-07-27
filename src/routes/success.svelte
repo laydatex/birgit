@@ -1,6 +1,6 @@
 <script>
 
-let total;
+import { store } from './store.js';
 
 </script>
 
@@ -13,8 +13,8 @@ let total;
 	<div class="scc_tile">
 		<h1>Bravo!</h1>
 		<p>
-			Mas objednano, posli prachy, sedni si a cekej na telefon.<br/>
-			-{total}-
+			Mas objednano. Posli prachy, sedni si a cekej na telefon.<br/>
+			<!-- -{$store}- -->
 		</p>
 		<img src="staring.jpg" alt="cekej" />
 	</div>
@@ -25,6 +25,9 @@ let total;
 	display flex
 	align-items center
 	justify-content center
+	position absolute
+	min-height 100%
+	min-width 100%
 
 	&_tile
 		padding 4rem
