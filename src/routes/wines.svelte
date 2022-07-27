@@ -70,7 +70,7 @@ function validateEmail() {
 	<meta name="description" content="Cenik vin" />
 </svelte:head>
 
-<form name="order" method="post" data-netlify="true" data-netlify-recaptcha="true" class="frm">
+<form name="order" method="post" action="/success" data-netlify="true" class="frm">
 
 	<input type="hidden" name="form-name" value="order" />
 
@@ -187,8 +187,6 @@ function validateEmail() {
 					{/if}
 				{/each}
 			</table>
-
-			<div data-netlify-recaptcha="true" />
 
 			<button type="submit" disabled={bottles < 1 || !nameValid || !emailValid} class="button -submit frm_submit">Objednat</button>
 			<button type="button" class="a -secondary frm_back" on:click={backToName}>Ne, posral sem to</button>
