@@ -74,8 +74,6 @@ function validateEmail() {
 
 	<input type="hidden" name="form-name" value="order" />
 
-	<input type="hidden" name="total" bind:value={total} />
-
 	<div class="pge_cart">
 		<table class="table">
 			<tr>
@@ -187,6 +185,8 @@ function validateEmail() {
 					{/if}
 				{/each}
 			</table>
+
+			<input type="hidden" name="total" bind:value={total} />
 
 			<button type="submit" disabled={bottles < 1 || !nameValid || !emailValid} class="button -submit frm_submit">Objednat</button>
 			<button type="button" class="a -secondary frm_back" on:click={backToName}>Ne, posral sem to</button>
