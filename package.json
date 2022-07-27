@@ -6,7 +6,6 @@
 		"build": "vite build",
 		"package": "vite package",
 		"preview": "vite preview",
-		"prepare": "vite sync",
 		"lint": "eslint ."
 	},
 	"devDependencies": {
