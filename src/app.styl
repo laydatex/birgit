@@ -3,15 +3,10 @@
 	--color-bg #eee
 	--color-text #444
 
-	--color-accent #0fb6ac
+	--color-accent #ff4c22
 	--color-accent-text #fff
-	--color-accent-1 #08958c
-	--color-accent-2 #0b827b
-
-	--color-critical #ff4c22
-	--color-critical-text #fff
-	--color-critical-1 #fd623e
-	--color-critical-2 #da3109
+	--color-accent-1 #fd623e
+	--color-accent-2 #da3109
 
 	--color-button #989
 	--color-button-text #fff
@@ -129,7 +124,7 @@ h2
 	&:hover
 	&:focus
 		outline 0
-		border-color var(--color-accent)
+		border-color rgba(#000, .4)
 
 	&[type="number"]
 		border-radius 0
@@ -147,7 +142,7 @@ h2
 		-webkit-appearance none
 
 	&.-error
-		border-color var(--color-critical)
+		border-color var(--color-accent)
 
 .table
 	border-collapse collapse
