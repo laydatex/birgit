@@ -68,11 +68,11 @@ function validateUserEmail() {
 	<meta name="description" content="Cenik vin" />
 </svelte:head>
 
-<form name="order" method="post" data-netlify="true" class="frm">
+<form name="order" method="post" data-netlify="true" action="/success" class="frm">
 
 	<input type="hidden" name="form-name" value="order" />
 
-	<div class="pge_cart tile">
+	<div class="pge_cart">
 		<p class="win_total">
 			{total ? total.toFixed(2) : 0} €
 		</p>
@@ -95,7 +95,7 @@ function validateUserEmail() {
 								{name}
 							</td>
 							<td class="win_prize -bottle">
-								#{(bottle + shippingPerBottle).toFixed(2)}#
+								{(bottle + shippingPerBottle).toFixed(2)}
 							</td>
 							<td>
 								<div class="win_boxes">
@@ -220,12 +220,12 @@ function validateUserEmail() {
 	display block
 
 .frm_step
-	width calc( 100% - 34rem )
+	width 100%
 	position absolute
 	left 100%
 	opacity 0
 	transition opacity .05s, left .3s
-	padding 4rem
+	padding 4rem 4rem 10rem
 
 	&.-visible
 		opacity 1
@@ -240,11 +240,19 @@ function validateUserEmail() {
 	text-align center
 
 .pge_cart
+	background-color #fff
 	position fixed
-	top 0
+	bottom 0
 	right 0
-	margin 4rem
-	width 30rem
+	left 0
+	height 10rem
 	z-index 9
+	display flex
+	align-items center
+	justify-content space-between
+	box-shadow 0 -6px 20px -6px rgba(#000, .2)
+
+	&__inner
+		max-width 70rem
 
 </style>
