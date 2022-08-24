@@ -18,9 +18,9 @@ const shippingPerBottle = .5;
 const bottlesPerBox = 6;
 const maxBoxes = 30;
 
-$: netto = wines.reduce((sum, current) => {
+$: total = wines.reduce((sum, current) => {
 		current.boxes = current.boxes || 0;
-		current.prize = current.bottle * current.boxes * bottlesPerBox || 0;
+		current.prize = (shippingPerBottle + current.bottle) * current.boxes * bottlesPerBox || 0;
 		return sum + current.prize;
 	}, 0);
 $: bottles = wines.reduce((sum, current) => {
@@ -28,7 +28,6 @@ $: bottles = wines.reduce((sum, current) => {
 		return sum + current.bottles;
 	}, 0);
 $: shipping = shippingPerBottle * bottles;
-$: total = shipping + netto;
 
 function confirmBottles() {
 	step = 'name';
@@ -69,32 +68,14 @@ function validateUserEmail() {
 	<meta name="description" content="Cenik vin" />
 </svelte:head>
 
-<form name="order" method="post" action="/success" data-netlify="true" class="frm">
+<form name="order" method="post" data-netlify="true" class="frm">
 
 	<input type="hidden" name="form-name" value="order" />
 
 	<div class="pge_cart tile">
-		<table class="table">
-			<tr>
-				<td class="win_name">Netto</td>
-				<td colspan="3" class="win_prize">
-					{netto ? (Math.round((netto + Number.EPSILON) * 100) / 100).toFixed(2) : 0}
-				</td>
-			</tr>
-			<tr>
-				<td class="win_name">Doprava</td>
-				<td colspan="3" class="win_prize">
-					{shipping ? shipping.toFixed(2) : 0}
-				</td>
-			</tr>
-			<tr>
-				<td class="win_name">Total</td>
-				<td colspan="3" class="win_prize win_total">
-					{total ? total.toFixed(2) : 0}
-					<span>€</span>
-				</td>
-			</tr>
-		</table>
+		<p class="win_total">
+			{total ? total.toFixed(2) : 0} €
+		</p>
 	</div>
 
 	<div class="frm_step" class:-visible={step === 'wines'}>
@@ -114,7 +95,7 @@ function validateUserEmail() {
 								{name}
 							</td>
 							<td class="win_prize -bottle">
-								{bottle}
+								#{(bottle + shippingPerBottle).toFixed(2)}#
 							</td>
 							<td>
 								<div class="win_boxes">
