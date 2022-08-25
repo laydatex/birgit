@@ -68,66 +68,55 @@ function validateUserEmail() {
 	<meta name="description" content="Cenik vin" />
 </svelte:head>
 
-<form name="order" method="post" data-netlify="true" action="/success" class="frm">
+<form name="order" method="post" data-netlify="true" action="/thanks" class="frm">
 
 	<input type="hidden" name="form-name" value="order" />
 
-	<div class="pge_cart">
-		<p class="win_total">
-			{total ? total.toFixed(2) : 0} €
-		</p>
-	</div>
-
 	<div class="frm_step" class:-visible={step === 'wines'}>
-		<div class="page pge_order">
 
-			<div>
-				<table class="table">
-					<tr>
-						<th class="win_name">Víno</th>
-						<th class="win_prize -bottle">Lahev</th>
-						<th>Krabic (x6)</th>
-						<th class="win_prize">€</th>
-					</tr>
-					{#each wines as {name, bottle, boxes, prize}}
-						<tr>
-							<td class="win_name">
-								{name}
-							</td>
-							<td class="win_prize -bottle">
-								{(bottle + shippingPerBottle).toFixed(2)}
-							</td>
-							<td>
-								<div class="win_boxes">
-									<button
-										class="button -small -left"
-										type="button"
-										disabled={boxes < 1}
-										on:click={() => boxes -= 1}>-</button>
-									<input
-										type="number"
-										min="0"
-										max="10"
-										maxlength="2"
-										bind:value={boxes}
-										class="input"
-										name="{name}"
-										readonly />
-									<button class="button -small -right" type="button" disabled={bottles / bottlesPerBox >= maxBoxes} on:click={() => boxes += 1}>+</button>
-								</div>
-							</td>
-							<td class="win_prize">
-								{prize ? prize.toFixed(2) : 0}
-							</td>
-						</tr>
-					{/each}
-				</table>
-
-				<button type="button" disabled={bottles < 1} class="button -submit frm_submit" on:click={confirmBottles}>Dalsi</button>
-
+		<div class="table">
+			<div class="table__header">
+				<div class="table__row__name">Víno</div>
+				<div class="table__row__bottle">Lahev</div>
+				<div class="table__row__boxes">Krabic (x6)</div>
+				<div class="table__row__prize">€</div>
 			</div>
 
+			{#each wines as {name, bottle, boxes, prize}}
+				<div class="table__row">
+					<div class="table__row__name">
+						{name}
+					</div>
+					<div class="table__row__bottle">
+						{(bottle + shippingPerBottle).toFixed(2)}
+					</div>
+					<div class="table__row__boxes">
+						<button
+							class="button -small -left"
+							type="button"
+							disabled={boxes < 1}
+							on:click={() => boxes -= 1}>-</button>
+						<input
+							type="number"
+							min="0"
+							max="10"
+							maxlength="2"
+							bind:value={boxes}
+							class="input"
+							name="{name}"
+							readonly />
+						<button class="button -small -right" type="button" disabled={bottles / bottlesPerBox >= maxBoxes} on:click={() => boxes += 1}>+</button>
+					</div>
+					<div class="table__row__prize">
+						{prize ? prize.toFixed(2) : 0}
+					</div>
+				</div>
+			{/each}
 		</div>
+
+		<button type="button" disabled={bottles < 1} class="button -submit frm_submit" on:click={confirmBottles}>Dalsi</button>
+
+
 	</div>
 
 	<div class="frm_step" class:-visible={step === 'name'}>
@@ -177,47 +166,24 @@ function validateUserEmail() {
 		</div>
 	</div>
 
+	<div class="cart">
+		<div class="cart__inner">
+			<span></span>
+			<p class="cart__total">
+				{total ? total.toFixed(2) : 0}
+				<span class="cart__euro">€</span>
+			</p>
+		</div>
+	</div>
+
 </form>
 
 <style lang="stylus">
 
-.win_name
-	text-align start
-
-.win_prize
-	text-align end
-	width 5em
-
-	&.-bottle
-		padding-right 1rem
-
-.win_total
-	font-weight bold
-	font-size var(--font-size-large)
-	color var(--color-accent)
-	position relative
-
-	span
-		position absolute
-		left 100%
-		top 0
-		bottom 0
-		display flex
-		align-items center
-		color var(--color-text)
-
-.win_boxes
-	display flex
-	align-items center
-	justify-content center
-
-	input
-		width 3rem
-		margin 0
-
 .frm_submit
 	margin 4rem auto 0
 	display block
+
 
 .frm_step
 	width 100%
@@ -238,21 +204,5 @@ function validateUserEmail() {
 .pge_name
 	margin 0 auto
 	text-align center
-
-.pge_cart
-	background-color #fff
-	position fixed
-	bottom 0
-	right 0
-	left 0
-	height 10rem
-	z-index 9
-	display flex
-	align-items center
-	justify-content space-between
-	box-shadow 0 -6px 20px -6px rgba(#000, .2)
-
-	&__inner
-		max-width 70rem
 
 </style>
