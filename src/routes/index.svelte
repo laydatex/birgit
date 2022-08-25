@@ -68,7 +68,7 @@ function validateUserEmail() {
 	<meta name="description" content="Cenik vin" />
 </svelte:head>
 
-<form name="order" method="post" data-netlify="true" action="/thanks" class="frm">
+<form name="order" method="post" data-netlify="true" class="frm">
 
 	<input type="hidden" name="form-name" value="order" />
 
