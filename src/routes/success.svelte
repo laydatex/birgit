@@ -4,7 +4,7 @@
 
 <svelte:head>
 	<title>Success</title>
-	<meta name="description" content="Thankyou" />
+	<meta name="description" content="Success" />
 </svelte:head>
 
 <div class="page scc">
