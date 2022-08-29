@@ -1,7 +1,3 @@
-<script context="module">
-	export const prerender = true;
-</script>
-
 <script>
 
 import WINE_LIST from '../_data/wines.json';
@@ -68,7 +64,7 @@ function validateUserEmail() {
 	<meta name="description" content="Cenik vin" />
 </svelte:head>
 
-<form name="order" method="post" data-netlify="true" action="/success.html" class="frm">
+<form name="order" method="post" data-netlify="true" action="/success" class="frm">
 
 	<div class="frm_step" class:-visible={step === 'wines'}>
 

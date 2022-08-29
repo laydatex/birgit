@@ -1,7 +1,3 @@
-<script context="module">
-	export const prerender = true;
-</script>
-
 <svelte:head>
 	<title>Success</title>
 	<meta name="description" content="Success" />
