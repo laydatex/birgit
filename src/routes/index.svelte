@@ -70,8 +70,6 @@ function validateUserEmail() {
 
 <form name="order" method="post" data-netlify="true" action="/success" class="frm">
 
-	<input type="hidden" name="form-name" value="order" />
-
 	<div class="frm_step" class:-visible={step === 'wines'}>
 
 		<div class="table">
