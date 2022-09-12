@@ -1,46 +1,59 @@
 [
 	{
-		"name": "Strass GV",
-		"bottle": 4.8
+		"itemName": "Strass GV",
+		"itemBottlePrize": 4.8,
+		"itemType": "GV"
 	},
 	{
-		"name": "Strass R",
-		"bottle": 7.15
+		"itemName": "Strass R",
+		"itemBottlePrize": 7.15,
+		"itemType": "R"
 	},
 	{
-		"name": "Strass Hasel GV",
-		"bottle": 5.61
+		"itemName": "Strass Hasel GV",
+		"itemBottlePrize": 5.61,
+		"itemType": "GV",
+		"favorite": true
 	},
 	{
-		"name": "Strass Wechselberg GV",
-		"bottle": 7.81
+		"itemName": "Strass Wechselberg GV",
+		"itemBottlePrize": 7.81,
+		"itemType": "GV"
 	},
 	{
-		"name": "Strass Stangl RV",
-		"bottle": 8.69
+		"itemName": "Strass Stangl RV",
+		"itemBottlePrize": 8.69,
+		"itemType": "RV",
+		"favorite": true
 	},
 	{
-		"name": "Strasser Rosengartl RV",
-		"bottle": 14.85
+		"itemName": "Strasser Rosengartl RV",
+		"itemBottlePrize": 14.85,
+		"itemType": "RV"
 	},
 	{
-		"name": "Strass Gaisberg CH",
-		"bottle": 8.69
+		"itemName": "Strass Gaisberg CH",
+		"itemBottlePrize": 8.69,
+		"itemType": "CH"
 	},
 	{
-		"name": "Strasser Gaisberg GV",
-		"bottle": 11.88
+		"itemName": "Strasser Gaisberg GV",
+		"itemBottlePrize": 11.88,
+		"itemType": "GV"
 	},
 	{
-		"name": "Strasser Kammerner Lamm GV",
-		"bottle": 16.72
+		"itemName": "Strasser Kammerner Lamm GV",
+		"itemBottlePrize": 16.72,
+		"itemType": "GV"
 	},
 	{
-		"name": "Zöbinger Gaisberg R",
-		"bottle": 13.75
+		"itemName": "Zöbinger Gaisberg R",
+		"itemBottlePrize": 13.75,
+		"itemType": "R"
 	},
 	{
-		"name": "Zöbinger Heilingenstein R",
-		"bottle": 17.82
+		"itemName": "Zöbinger Heilingenstein R",
+		"itemBottlePrize": 17.82,
+		"itemType": "R"
 	}
 ]

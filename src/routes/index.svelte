@@ -1,6 +1,9 @@
 <script>
 
+import { onMount } from 'svelte';
 import WINE_LIST from '../_data/wines.json';
+import { SHIPPING_PER_BOTTLE, BOTTLES_PER_BOX, MAX_BOXES } from '../_data/const.js'
+import Row from '../components/row.svelte';
 
 let wines = WINE_LIST;
 let step = 'wines';
@@ -8,22 +11,23 @@ let userEmailValid;
 let userNameValid;
 let userName;
 let userEmail;
-let total;
+let orderItem;
 
-const shippingPerBottle = .5;
-const bottlesPerBox = 6;
-const maxBoxes = 30;
+let itemBoxes = 0;
+let itemBottlePrize;
+let itemPrize = 0;
+let itemName;
+let itemType;
+let itemBottles = 0;
 
-$: total = wines.reduce((sum, current) => {
-		current.boxes = current.boxes || 0;
-		current.prize = (shippingPerBottle + current.bottle) * current.boxes * bottlesPerBox || 0;
-		return sum + current.prize;
-	}, 0);
-$: bottles = wines.reduce((sum, current) => {
-		current.bottles = current.boxes * bottlesPerBox;
-		return sum + current.bottles;
-	}, 0);
-$: shipping = shippingPerBottle * bottles;
+$: winesGV = wines.filter(item => item.itemType === 'GV');
+$: winesRV = wines.filter(item => item.itemType === 'RV');
+$: winesR = wines.filter(item => item.itemType === 'R');
+$: winesCH = wines.filter(item => item.itemType === 'CH');
+
+$: prizeGV = winesGV.reduce(function(sum, current) {
+	return sum + current.itemBottlePrize * current.itemBottles;
+}, 0);
 
 function confirmBottles() {
 	step = 'name';
@@ -57,6 +61,28 @@ function validateUserEmail() {
 	}
 }
 
+function decrease(i) {
+	itemBoxes -= 1;
+	itemBottles -= 6;
+	updatePrize(i);
+}
+
+function increase(i) {
+	itemBoxes += 1;
+	itemBottles += 6;
+	updatePrize(i);
+}
+
+function updatePrize(i) {
+	itemPrize = (itemBottlePrize + SHIPPING_PER_BOTTLE) * itemBottles;
+	console.log(winesGV[i]);
+}
+
+onMount( () => {
+	wines = wines.sort((a, b) => a.itemType - b.itemType);
+	console.log(wines.sort((a, b) => a.itemType - b.itemType));
+});
+
 </script>
 
 <svelte:head>
@@ -70,51 +96,98 @@ function validateUserEmail() {
 
 		<div class="table">
 			<div class="table__header">
-				<div class="table__row__name">Víno</div>
-				<div class="table__row__bottle">Lahev</div>
-				<div class="table__row__boxes">Krabic (x6)</div>
+				<div class="table__row__name">Grüner Veltliner</div>
 				<div class="table__row__prize">€</div>
 			</div>
 
-			{#each wines as {name, bottle, boxes, prize}}
-				<div class="table__row">
-					<div class="table__row__name">
-						{name}
-					</div>
-					<div class="table__row__bottle">
-						{(bottle + shippingPerBottle).toFixed(2)}
-					</div>
-					<div class="table__row__boxes">
-						<button
-							class="button -small -left"
-							type="button"
-							disabled={boxes < 1}
-							on:click={() => boxes -= 1}>-</button>
-						<input
-							type="number"
-							min="0"
-							max="10"
-							maxlength="2"
-							bind:value={boxes}
-							class="input"
-							name="{name}"
-							readonly />
-						<button class="button -small -right" type="button" disabled={bottles / bottlesPerBox >= maxBoxes} on:click={() => boxes += 1}>+</button>
-					</div>
-					<div class="table__row__prize">
-						{prize ? prize.toFixed(2) : 0}
-					</div>
+			{#each wines as wine, i}
+			<div class="table__row">
+				<div class="table__row__name">
+					<!-- {wine.itemName.replace(/ GV$| RV$| R$| CH$/g, '')} -->
+					{wine.itemName}
 				</div>
+				<div class="table__row__bottle">
+					{(wine.itemBottlePrize + SHIPPING_PER_BOTTLE).toFixed(2)}
+					<span>€</span>
+				</div>
+				<div class="table__row__boxes">
+					<button
+						class="button -small -left"
+						type="button"
+						disabled={wine.itemBottles < 1}
+						on:click={() => { decrease(i)}}>-</button>
+					<div class="table__row__boxes__count">{wine.itemBottles}</div>
+					<button
+						class="button -small -right"
+						type="button"
+						disabled={wine.itemBoxes >= MAX_BOXES}
+						on:click={() => { increase(i)}}>+</button>
+				</div>
+				<div class="table__row__prize">
+					{wine.itemPrize ? wine.itemPrize.toFixed(2) : wine.itemPrize}
+				</div>
+
+
+				<div class="table__inputs">
+				<input
+					type="number"
+					bind:value={wine.itemBoxes}
+					class="input"
+					name="{wine.itemName}"
+					readonly
+					hidden />
+				<input
+					type="number"
+					bind:value={wine.itemPrize}
+					class="input"
+					name="{wine.itemName} {wine.itemPrize}"
+					readonly
+					hidden />
+				</div>
+			</div>
 			{/each}
+
+			<!-- {#each winesGV as wineGV, i}
+				<Row
+					itemBoxes={wineGV.itemBoxes}
+					itemBottlePrize={wineGV.itemBottlePrize}
+					itemPrize={wineGV.itemPrize}
+					itemName={wineGV.itemName}
+					itemType={wineGV.itemType} />
+			{/each}
+
+			<div class="table__header">
+				<div class="table__row__name">Roter Veltliner</div>
+				<div class="table__row__prize">€</div>
+			</div>
+
+			{#each winesRV as {itemName, itemBottlePrize, itemBoxes, itemPrize, itemType}}
+				<Row {itemBoxes} {itemBottlePrize} {itemPrize} {itemName} {itemType} />
+			{/each}
+
+			<div class="table__header">
+				<div class="table__row__name">Riesling</div>
+				<div class="table__row__prize">€</div>
+			</div>
+
+			{#each winesR as {itemName, itemBottlePrize, itemBoxes, itemPrize, itemType}}
+				<Row {itemBoxes} {itemBottlePrize} {itemPrize} {itemName} {itemType} />
+			{/each}
+
+			<div class="table__header">
+				<div class="table__row__name">Chaardonnay</div>
+				<div class="table__row__prize">€</div>
+			</div>
+
+			{#each winesCH as {itemName, itemBottlePrize, itemBoxes, itemPrize, itemType}}
+				<Row {itemBoxes} {itemBottlePrize} {itemPrize} {itemName} {itemType} />
+			{/each} -->
 		</div>
-
-		<button type="button" disabled={bottles < 1} class="button -submit frm_submit" on:click={confirmBottles}>Dalsi</button>
-
 
 	</div>
 
 	<div class="frm_step" class:-visible={step === 'name'}>
-		<div class="page pge_name">
+		<!-- <div class="page pge_name">
 
 			<input name="userName" class="input" class:-error={userNameValid === false} placeholder="Jmeno" bind:value={userName} on:input={validateUserName}/>
 
@@ -123,7 +196,7 @@ function validateUserEmail() {
 			<button type="button" disabled={!userNameValid || !userEmailValid} class="button -submit frm_submit" on:click={confirmName}>Dalsi</button>
 			<button type="button" class="a -secondary frm_back" on:click={backToBottles}>Ne, posral sem to</button>
 
-		</div>
+		</div> -->
 	</div>
 
 	<div class="frm_step" class:-visible={step === 'summary'}>
@@ -131,7 +204,7 @@ function validateUserEmail() {
 
 			<h1>Souhlasi?</h1>
 
-			<table class="table">
+			<!-- <table class="table">
 				<tr>
 					<th class="win_name">Víno</th>
 					<th class="win_prize">Krabic</th>
@@ -147,14 +220,14 @@ function validateUserEmail() {
 				<tr>
 					<td class="win_name">Celkem</td>
 					<td class="win_prize">
-						<strong>{bottles / bottlesPerBox}</strong>
+						<strong>{bottles / BOTTLES_PER_BOX}</strong>
 					</td>
 				</tr>
-			</table>
+			</table> -->
 
-			<input type="hidden" name="total" bind:value={total} />
+			<!-- <input type="hidden" name="total" bind:value={total} /> -->
 
-			<button type="submit" disabled={bottles < 1 || !userName || !userEmail} class="button -submit frm_submit">Objednat</button>
+			<button type="submit" disabled={!userName || !userEmail} class="button -submit frm_submit">Objednat</button>
 			<button type="button" class="a -secondary frm_back" on:click={backToName}>Ne, posral sem to</button>
 
 		</div>
@@ -162,9 +235,11 @@ function validateUserEmail() {
 
 	<div class="cart">
 		<div class="cart__inner">
-			<span></span>
+			{#if step === 'wines'}
+				<button type="button" class="button -submit" on:click={confirmBottles}>Dalsi</button>
+			{/if}
 			<p class="cart__total">
-				{total ? total.toFixed(2) : 0}
+				{prizeGV}
 				<span class="cart__euro">€</span>
 			</p>
 		</div>
@@ -174,10 +249,17 @@ function validateUserEmail() {
 
 <style lang="stylus">
 
+.frm
+	position absolute
+	top 0
+	right 0
+	bottom 10rem
+	left 0
+	overflow auto
+
 .frm_submit
 	margin 4rem auto 0
 	display block
-
 
 .frm_step
 	width 100%
@@ -185,7 +267,7 @@ function validateUserEmail() {
 	left 100%
 	opacity 0
 	transition opacity .05s, left .3s
-	padding 4rem 4rem 10rem
+	padding 2rem 4rem
 
 	&.-visible
 		opacity 1
